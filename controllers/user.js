@@ -9,8 +9,8 @@ const register = async (req, res) => {
     })
     if (FindUser.type == "Admin") {
         const user = await User.create({ ...req.body })
-        const token = user.createJWT()
-        res.status(StatusCodes.CREATED).json({ user: { id: user._id, name: user.name, email: user.email, type: user.type, designation: user.designation, isHead: user.isHead }, token })
+        // const token = user.createJWT()
+        res.status(StatusCodes.CREATED).json({ user: { id: user._id, name: user.name, email: user.email, type: user.type, designation: user.designation, isHead: user.isHead }, "message":"Add Successful" })
     } else {
         throw new UnauthenticatedError('Insufficient Privileges')
     }
