@@ -1,114 +1,213 @@
 const { text } = require('express')
 const mongoose = require('mongoose')
 
-const tls = new mongoose.Schema({
-    date : {
+const BT_Lang = new mongoose.Schema({
+    date: {
         type: Date,
         default: Date.now
     },
-    program : {
-        type : String
-    },
-    music_day : {
+    trainer: {
         type: String
     },
-    duration : {
+    Notes_Oberation: {
+        type: String
+    },
+    duration: {
+        type: String
+    },
+    info: {
+        type: String
+    },
+})
+
+const IM = new mongoose.Schema({
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    activity: {
+        type: String
+    },
+    Task_Avg: {
+        type: String
+    },
+    Var_Avg: {
+        type: String
+    },
+    SRO: {
+        type: String
+    },
+    E: {
+        type: String
+    },
+    L: {
+        type: String
+    },
+    HighestIAR: {
+        type: String
+    },
+    Burst: {
+        type: String
+    },
+})
+
+const SI_FT = new mongoose.Schema({
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    Trainer: {
+        type: String
+    },
+    Durations: {
+        type: String
+    },
+    Vestibular: {
+        type: String
+    },
+    Reflex: {
+        type: String
+    },
+    VP_AP: {
+        type: String
+    },
+    FT: {
+        type: String
+    },
+    Message: {
+        type: String
+    },
+    Proprioception: {
+        type: String
+    },
+    Kinestesia: {
+        type: String
+    },
+    EP: {
+        type: String
+    },
+    Emotions: {
+        type: String
+    },
+    Tactile_Oral: {
+        type: String
+    },
+    Muscle_tone: {
+        type: String
+    },
+    Others: {
+        type: String
+    },
+})
+
+const tls = new mongoose.Schema({
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    program: {
+        type: String
+    },
+    music_day: {
+        type: String
+    },
+    duration: {
         type: String
     }
 })
 
 const lesson_log = new mongoose.Schema({
-    teacher : {
-        type : String
+    teacher: {
+        type: String
     },
-    time : {
-        type : String
+    time: {
+        type: String
     },
-    date : {
+    date: {
         type: Date,
         default: Date.now
     }
 })
 
 const hour_log = new mongoose.Schema({
-    teacher : {
-        type : String
+    teacher: {
+        type: String
     },
-    time : {
-        type : String
+    time: {
+        type: String
     },
-    date : {
+    date: {
         type: Date,
         default: Date.now
     },
-    notes : {
+    notes: {
         type: String
     }
 })
 
 const case_notes = new mongoose.Schema({
-    reviewer : {
-        type : String
+    reviewer: {
+        type: String
     },
-    recent_changes : {
-        type : String
+    recent_changes: {
+        type: String
     },
-    communication : {
+    communication: {
         type: String
     }
 })
 
 const lesson = new mongoose.Schema({
-    trainer : {
-        type : String
+    trainer: {
+        type: String
     },
-    date : {
+    date: {
         type: Date,
         default: Date.now
     },
-    lesson_length : {
+    lesson_length: {
         type: String
     },
-    lesson_objectives : {
-        type : String
-    },
-    message : {
-        type : String
-    },
-    reflex : {
+    lesson_objectives: {
         type: String
     },
-    tactile : {
-        type : String
-    },
-    vestibular : {
-        type : String
-    },
-    oral : {
+    message: {
         type: String
     },
-    kinestesia : {
-        type : String
-    },
-    muscle_tone : {
-        type : String
-    },
-    proprioception : {
+    reflex: {
         type: String
     },
-    vision : {
-        type : String
-    },
-    emotions : {
+    tactile: {
         type: String
     },
-    others : {
-        type : String
+    vestibular: {
+        type: String
     },
-    plan_for_next_session : {
-        type : String
+    oral: {
+        type: String
     },
-    parent_feedback : {
+    kinestesia: {
+        type: String
+    },
+    muscle_tone: {
+        type: String
+    },
+    proprioception: {
+        type: String
+    },
+    vision: {
+        type: String
+    },
+    emotions: {
+        type: String
+    },
+    others: {
+        type: String
+    },
+    plan_for_next_session: {
+        type: String
+    },
+    parent_feedback: {
         type: String
     }
 })
@@ -152,6 +251,9 @@ const StudentSchema = new mongoose.Schema({
     hour_log: [hour_log],
     case_notes: [case_notes],
     lesson: [lesson],
+    BT_Lang: [BT_Lang],
+    IM: [IM],
+    SI_FT: [SI_FT],
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User'
