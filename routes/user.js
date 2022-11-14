@@ -5,7 +5,7 @@ const { updateUser, getUser, deleteUser, register, getAllUsers } = require("../c
 
 router.patch('/update/:id', updateUser)
 router.route('/getUser/:id').get(getUser).delete(deleteUser)
-router.get('/users', getAllUsers)
+router.post('/users', getAllUsers)
 router.post('/register', register)
 
 module.exports = router
