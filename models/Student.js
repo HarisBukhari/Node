@@ -223,6 +223,9 @@ const StudentSchema = new mongoose.Schema({
         default: Date.now,
         required: [true, 'Please Provide Date of Birth'],
     },
+    meeting_date: {
+        type: Date
+    },
     name: {
         type: String,
         required: [true, 'Please Provide Name'],

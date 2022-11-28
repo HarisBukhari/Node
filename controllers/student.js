@@ -25,9 +25,9 @@ const createStudent = async (req, res) => {
 const getAllStds = async (req, res) => {
     let stds = ""
     if (req.body.search) {
-        stds = await Student.find({ name: new RegExp(req.body.search, 'i'), status: req.body.status }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+        stds = await Student.find({ name: new RegExp(req.body.search, 'i'), status: req.body.status },{name:1,total_hours:1,meeting_date:1}).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
     } else {
-        stds = await Student.find({ status: req.body.status }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+        stds = await Student.find({ status: req.body.status },{name:1,total_hours:1,meeting_date:1}).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
     }
     res.status(StatusCodes.OK).json({ stds, count: stds.length })
 }
