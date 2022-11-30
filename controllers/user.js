@@ -26,12 +26,14 @@ const getAllUsers = async (req, res) => {
         if (req.body.full) {
             if (req.body.search) {
                 Users = await User.find({ name: new RegExp(req.body.search, 'i'), type: 'Teacher' }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+                length = Users.length
             } else {
                 Users = await User.find({ type: 'Teacher' }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
             }
         } else {
             if (req.body.search) {
                 Users = await User.find({ name: new RegExp(req.body.search, 'i'), type: 'Teacher' }, { name: 1, designation: 1 }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+                length = Users.length
             } else {
                 Users = await User.find({ type: 'Teacher' }, { name: 1, designation: 1 }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
             }
