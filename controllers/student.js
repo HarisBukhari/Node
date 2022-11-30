@@ -24,12 +24,21 @@ const createStudent = async (req, res) => {
 
 const getAllStds = async (req, res) => {
     let stds = ""
-    let length = await Student.find({ status: req.body.status}).countDocuments()
-    if (req.body.search) {
-        stds = await Student.find({ name: new RegExp(req.body.search, 'i'), status: req.body.status },{name:1,total_hours:1,meeting_date:1}).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+    let length = await Student.find({ status: req.body.status }).countDocuments()
+    if (req.body.full) {
+        if (req.body.search) {
+            stds = await Student.find({ name: new RegExp(req.body.search, 'i'), status: req.body.status }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+        } else {
+            stds = await Student.find({ status: req.body.status }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+        }
     } else {
-        stds = await Student.find({ status: req.body.status },{name:1,total_hours:1,meeting_date:1}).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+        if (req.body.search) {
+            stds = await Student.find({ name: new RegExp(req.body.search, 'i'), status: req.body.status }, { name: 1, total_hours: 1, meeting_date: 1 }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+        } else {
+            stds = await Student.find({ status: req.body.status }, { name: 1, total_hours: 1, meeting_date: 1 }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+        }
     }
+
     res.status(StatusCodes.OK).json({ stds, count: length })
 }
 
@@ -65,6 +74,15 @@ const updateStudent = async (req, res) => {
         user: { userId },
         params: { id: stdId }
     } = req
+
+    if (total_hours) {
+        const FindUser = await User.findOne({
+            _id: req.user.userId
+        })
+        if (FindUser.type != "Admin" || FindUser.isHead != true) {
+            delete req.body.total_hours
+        }
+    }
 
     if (email === '' || dob === '' || name === '' || parents_concern === '' || emotional_regulation === '' || total_hours === '' || completed_hours === '') {
         throw new BadRequestError('Information Missing')
@@ -108,7 +126,7 @@ const deleteStudent = async (req, res) => {
     const FindUser = await User.findOne({
         _id: userId
     })
-    if (FindUser.type == "Admin" || FindUser.isHead == true ) {
+    if (FindUser.type == "Admin" || FindUser.isHead == true) {
         const std = await Student.findOneAndRemove({
             _id: stdId
         })

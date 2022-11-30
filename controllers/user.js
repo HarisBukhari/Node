@@ -10,7 +10,7 @@ const register = async (req, res) => {
     if (FindUser.type == "Admin") {
         const user = await User.create({ ...req.body })
         // const token = user.createJWT()
-        res.status(StatusCodes.CREATED).json({ user: { id: user._id, name: user.name, email: user.email, type: user.type, designation: user.designation, isHead: user.isHead }, "message":"Add Successful" })
+        res.status(StatusCodes.CREATED).json({ user: { id: user._id, name: user.name, email: user.email, type: user.type, designation: user.designation, isHead: user.isHead }, "message": "Add Successful" })
     } else {
         throw new UnauthenticatedError('Insufficient Privileges')
     }
@@ -23,10 +23,18 @@ const getAllUsers = async (req, res) => {
     if (FindUser.type == "Admin") {
         let Users = ""
         let length = await User.find({ type: 'Teacher' }).countDocuments()
-        if (req.body.search) {
-            Users = await User.find({ name: new RegExp(req.body.search,'i'), type: 'Teacher' }, { name: 1, designation: 1 }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+        if (req.body.full) {
+            if (req.body.search) {
+                Users = await User.find({ name: new RegExp(req.body.search, 'i'), type: 'Teacher' }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+            } else {
+                Users = await User.find({ type: 'Teacher' }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+            }
         } else {
-            Users = await User.find({ type: 'Teacher' }, { name: 1, designation: 1 }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+            if (req.body.search) {
+                Users = await User.find({ name: new RegExp(req.body.search, 'i'), type: 'Teacher' }, { name: 1, designation: 1 }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+            } else {
+                Users = await User.find({ type: 'Teacher' }, { name: 1, designation: 1 }).skip((req.body.page > 0) ? req.body.page * req.body.limit : 0 || 0).limit(req.body.limit || 24).sort(req.body.filter || 'createdAt')
+            }
         }
         res.status(StatusCodes.OK).json({ Users, count: length })
     } else {
