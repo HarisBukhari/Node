@@ -146,15 +146,36 @@ const hour_log = new mongoose.Schema({
 })
 
 const case_notes = new mongoose.Schema({
-    reviewer: {
-        type: String
+    case_management_meeting: {
+        reviewer: {
+            type: String
+        },
+        recent_changes: {
+            type: String
+        },
+        communication: {
+            type: String
+        }
     },
-    recent_changes: {
-        type: String
+    parent_review_session: {
+        reviewer: {
+            type: String
+        },
+        recent_changes: {
+            type: String
+        },
+        communication: {
+            type: String
+        }
     },
-    communication: {
-        type: String
-    }
+    comments: [{
+        date: {
+            type: Date
+        },
+        trainer: {
+            type: String
+        }
+    }]
 })
 
 const lesson = new mongoose.Schema({
